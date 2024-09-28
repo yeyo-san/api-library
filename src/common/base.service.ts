@@ -6,8 +6,7 @@ export class BaseService<T extends Document> {
   constructor(private readonly model: Model<T>) {}
 
   async create(createDto: Partial<T>): Promise<T> {
-    const createdItem = new this.model(createDto);
-    return createdItem.save();
+    return this.model.create(createDto);
   }
 
   async findAll(): Promise<T[]> {
@@ -23,7 +22,9 @@ export class BaseService<T extends Document> {
   }
 
   async update(id: string, updateDto: Partial<T>): Promise<T> {
-    const updatedItem = await this.model.findByIdAndUpdate(id, updateDto, { new: true }).exec();
+    const updatedItem = await this.model
+      .findByIdAndUpdate(id, updateDto, { new: true })
+      .exec();
     if (!updatedItem) {
       throw new NotFoundException(`Item with ID ${id} not found`);
     }

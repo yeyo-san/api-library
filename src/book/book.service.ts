@@ -8,7 +8,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Book } from './entities/book.entity';
 import { Model, Types } from 'mongoose';
-import { BaseService } from 'src/common/base.service';
+import { BaseService } from '../common/base.service';
 
 @Injectable()
 export class BookService extends BaseService<Book> {
@@ -44,12 +44,12 @@ export class BookService extends BaseService<Book> {
     return books;
   }
 
-  async findOneById(id: string): Promise<Book> {
-    this.validateMongoId(id)
+  async findById(id: string): Promise<Book> {
+    this.validateMongoId(id); 
     const book = await super.findById(id);
-    this.validateBooksFound(book, id, 'id');
+    this.validateBooksFound(book, id, 'id'); 
     return book;
-  }
+}
 
   async findOneByTitle(title: string): Promise<Book> {
     const book = await this.bookModel.findOne({title}).exec()

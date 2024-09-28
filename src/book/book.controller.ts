@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { ApiKeyGuard } from 'src/guard/api-key.guard';
+import { ApiKeyGuard } from '../guard/api-key.guard';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('books')
@@ -22,8 +22,8 @@ export class BookController {
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: string) {
-    return await this.bookService.findOneById(id);
+  async findOne(@Param('id') id: string) {
+    return await this.bookService.findById(id);
   }
 
   @Post('title')
@@ -32,21 +32,18 @@ export class BookController {
     return await this.bookService.findOneByTitle(title);
   }
 
-  @Post('author')
-  async findOneByAuthor(@Body() body: {author: string}) {
-    const {author} = body
+  @Get('author/:author')
+  async findByAuthor(@Param('author') author: string) {
     return await this.bookService.findOneByAuthor(author);
   }
 
-  @Post('genre')
-  async findOneByGenre(@Body() body: {genre: string}) {
-    const {genre} = body
+  @Get('genre/:genre')
+  async findByGenre(@Param('genre') genre: string) {
     return await this.bookService.findOneByGenre(genre);
   }
 
-  @Post('date')
-  async findOneByDate(@Body() body: {date: string}) {
-    const {date} = body
+  @Get('date/:date')
+  async findByDate(@Param() date: string) {
     return await this.bookService.findOneByDate(date);
   }
 
